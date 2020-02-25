@@ -1,21 +1,17 @@
----
-title: "Portf_Draft"
-author: "Brock Rowley"
-date: "2/26/2020"
-output: html_document
----
-
-```{r setup, echo = FALSE, include=FALSE, warning=FALSE}
-#knitr::opts_chunk$set()
 library(here)
+library(rio)
 library(tidyverse)
 library(janitor)
+library(dplyr)
 library(ggplot2)
 library(maps)
 library(mapdata)
 library(ggmap)
 library(RColorBrewer)
-library(ggrepel)
+library(mapproj)
+library(shadowtext)
+library(stringr)
+library(viridis)
 
 files <- list.files(here::here("data"),
                     full.names = TRUE)
@@ -23,10 +19,13 @@ files
 
 d <- read_csv(files[1]) %>%
   clean_names()
-```
 
-Start to the map of students across Oregon and participation on ORExt.  \FloatBarrier 
-```{r map_1}
+ggplot(d, aes(rit)) +
+  geom_histogram(bins = 12)
+
+ggplot(d, aes(disability_code)) +
+  geom_histogram(bins = 20)
+
 states <- map_data("state") %>%
   rename(name = region) %>%
   select(-subregion, -group) %>%
@@ -47,29 +46,10 @@ or_base <- ggplot(data = states) +
                        direction = -1) +
   coord_quickmap()
 
-or_base
-```
-
-Here is a refined map of Oregon with students participation on ORExt. Counties outlined for detail.  \FloatBarrier 
-```{r map_2}
 or_base +
   theme_void() +
   geom_polygon(data = or_county,
                aes(long, lat,
                    group = group),
                fill = NA,
-               color = "#55565B")
-```
-
-Next I plan to include a title additional information.  \FloatBarrier 
-```{r map_3, fig.width=8, fig.height=6}
-or_base +
-  theme_void() +
-  geom_polygon(data = or_county,
-               aes(long, lat,
-                   group = group),
-               fill = NA,
-               color = "#55565B") +
-  labs(title = "Student Participation by School Location in Oregon",
-         subtitle = "Oregon's Extended Assessment for students with significant cognitive disabilities ")
-```
+               color = "yellow")
