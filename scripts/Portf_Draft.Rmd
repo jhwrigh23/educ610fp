@@ -1,0 +1,65 @@
+---
+title: "Portf_Draft"
+author: "Brock Rowley"
+date: "2/26/2020"
+output: html_document
+---
+
+```{r setup, include=TRUE, }
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(maps)
+library(mapdata)
+library(ggmap)
+library(RColorBrewer)
+
+files <- list.files(here::here("data"),
+                    full.names = TRUE)
+files
+
+d <- read_csv(files[1]) %>%
+  clean_names()
+```
+This is a plot of the spread of scores.
+```{r plot_one}
+ggplot(d, aes(rit)) +
+  geom_histogram(bins = 12)
+```
+This is a plot of the number of students by disability code.
+```{r plot_two}
+ggplot(d, aes(disability_code)) +
+  geom_histogram(bins = 20)
+```
+Start to the map of students across Oregon and participation on ORExt.
+```{r map_1}
+counties <- map_data("county")
+or_county <- counties %>%
+  filter(region == "oregon")
+
+or_base <- ggplot(data = states) +
+  geom_polygon(aes(long, lat),
+               fill = "#154937",
+               color = "#55565B",
+               size = 2) +
+  geom_bin2d(data = d, aes(lon, lat),
+             binwidth = .08) +
+  scale_fill_viridis_c(option = "plasma",
+                       direction = -1) +
+  coord_quickmap()
+
+or_base
+```
+Here is a refined map of Oregon with students participation on ORExt. Counties outlined for detail.
+```{r map_2}
+or_base +
+  theme_void() +
+  geom_polygon(data = or_county,
+               aes(long, lat,
+                   group = group),
+               fill = NA,
+               color = "yellow")
+```
+
