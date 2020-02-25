@@ -1,0 +1,41 @@
+---
+title: "Rowley_Proposal"
+author: "Brock Rowley"
+date: "2/6/2020"
+output: html_document
+---
+## Proposal (10 points; 5%; Due February 5) At the end of Week 5, you must include a proposal of your data visualization portfolio that includes the following:
+
+### Description of the data source (must be publicly available)
+I plan to use ORExt data that has been simulated using synthpop::syn().
+
+### Preliminary ideas (even hand sketches) of different visualizations.
+I espire to plots like those included in the shinny app you built for the ReadWorks web page.
+
+### Identification of the intended audience for each visualization.
+Visualizations will be included in future ORExt technical reports to better communicate results, demographics, and population data.
+
+### The intended message to be communicated for each plot.
+Analysis results and technical adaquecy of the ORExt.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(rio)
+library(tidyverse)
+library(janitor)
+library(dplyr)
+
+files <- list.files(here::here("data"),
+                    full.names = TRUE)
+files
+
+d <- read_csv(files[1]) %>%
+  clean_names()
+
+local <- read_csv(files[2]) %>%
+  clean_names() %>%
+  rename(schlid = institution_id,
+         distid =  parent_id)
+
+demo <- left_join(d, local)
+```

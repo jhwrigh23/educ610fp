@@ -11,3 +11,4 @@ tests/*
 *.log
 *.tex
 *.pdf
+.httr-oauth
