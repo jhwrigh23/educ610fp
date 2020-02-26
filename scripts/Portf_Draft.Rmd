@@ -5,8 +5,8 @@ date: "2/26/2020"
 output: html_document
 ---
 
-```{r setup, echo = FALSE, include=FALSE, warning=FALSE}
-#knitr::opts_chunk$set()
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 library(here)
 library(tidyverse)
 library(janitor)
@@ -25,8 +25,25 @@ d <- read_csv(files[1]) %>%
   clean_names()
 ```
 
-Start to the map of students across Oregon and participation on ORExt.  \FloatBarrier 
-```{r map_1}
+Starting with a simple map of the U.S  \FloatBarrier
+```{r map_1, fig.width = 8, fig.height = 6}
+
+states <- map_data("state")
+
+usa <- ggplot() +
+  geom_polygon(data = states,
+               aes(x = long,
+                   y = lat,
+                   group = group),
+               fill = NA,
+               color = "#154937") +
+  coord_quickmap()
+usa
+```
+
+Map of students participation across Oregon on the Alternate Assessment.  \FloatBarrier
+```{r map_2, fig.width = 8, fig.height = 6}
+
 states <- map_data("state") %>%
   rename(name = region) %>%
   select(-subregion, -group) %>%
@@ -50,8 +67,8 @@ or_base <- ggplot(data = states) +
 or_base
 ```
 
-Here is a refined map of Oregon with students participation on ORExt. Counties outlined for detail.  \FloatBarrier 
-```{r map_2}
+Here is a refined map of Oregon, counties outlined for more detail.  \FloatBarrier
+```{r map_3, fig.width = 8, fig.height = 6}
 or_base +
   theme_void() +
   geom_polygon(data = or_county,
@@ -61,8 +78,8 @@ or_base +
                color = "#55565B")
 ```
 
-Next I plan to include a title additional information.  \FloatBarrier 
-```{r map_3, fig.width=8, fig.height=6}
+Include a title and subtitle.  \FloatBarrier
+```{r map_4, fig.width = 8, fig.height = 6}
 or_base +
   theme_void() +
   geom_polygon(data = or_county,
