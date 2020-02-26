@@ -25,6 +25,18 @@ d <- read_csv(files[1]) %>%
   clean_names()
 ```
 
+Starting by looking at students score histogram.  \FloatBarrier
+```{r plot_scores}
+ggplot(d, aes(rit)) +
+  geom_histogram(bins = 12)
+```
+
+Looking at data by disability categories.  \FloatBarrier
+```{r plot_disab_cat}
+ggplot(d, aes(disability_code)) +
+  geom_histogram(bins = 20)
+```
+
 Starting with a simple map of the U.S  \FloatBarrier
 ```{r map_1, fig.width = 8, fig.height = 6}
 
