@@ -29,12 +29,16 @@ Starting by looking at students score histogram.  \FloatBarrier
 ```{r plot_scores}
 ggplot(d, aes(rit)) +
   geom_histogram(bins = 12)
+
+# I'm not familiar with Oregon's Extended Assessment. Do you think raw scores are most useful here? Or would scores in % be more meaningful?  
 ```
 
 Looking at data by disability categories.  \FloatBarrier
 ```{r plot_disab_cat}
 ggplot(d, aes(disability_code)) +
   geom_histogram(bins = 20)
+
+# Although this is pretty basic info, it seems super helpful to start with, gives us some context of the dataset. Of course, you could add labels to the x-axis so that we know which disabilities are which. You could also order these meaningfully, e.g. from highest to lowest count. 
 ```
 
 Starting with a simple map of the U.S  \FloatBarrier
@@ -101,4 +105,6 @@ or_base +
                color = "#55565B") +
   labs(title = "Student Participation by School Location in Oregon",
          subtitle = "Oregon's Extended Assessment for students with significant cognitive disabilities ")
+
+# Nice map! Suggestion: You could make the title bigger and a little bit more descriptive so that the viewer knows right away what they're looking at. E.g. does the scale represent the number of students who participated in the assessment within each school?  
 ```
